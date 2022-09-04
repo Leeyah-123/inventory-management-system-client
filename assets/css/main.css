@@ -1,0 +1,13 @@
+:root {
+  --white: #fff;
+  --black: #000;
+}
+
+:root {
+  --bg-color: var(--white);
+  --text-color: var(--black);
+}
+
+main {
+  width: 100vw;
+}
