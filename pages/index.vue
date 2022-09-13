@@ -1,12 +1,13 @@
 <template>
-  <div>This is the home page</div>
+  <dashboard-component />
 </template>
 
 <script>
+import DashboardComponent from "../components/core/DashboardComponent.vue";
+
 export default {
-  name: "IndexPage",
-  created() {
-    this.$store.commit("SET_VALIDATED", true);
-  },
+  name: "DashboardPage",
+  components: { DashboardComponent },
+  middleware: ["auth"],
 };
 </script>

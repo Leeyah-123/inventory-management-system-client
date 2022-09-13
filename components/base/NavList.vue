@@ -36,7 +36,7 @@ export default {
         {
           icon: "mdi-finance",
           title: "Sale",
-          to: "/sale",
+          to: "/sales",
         },
         {
           icon: "mdi-cash-multiple",
@@ -44,14 +44,19 @@ export default {
           to: "/purchases",
         },
         {
-          icon: "mdi-arrow-collapse",
-          title: "Returns",
-          to: "/returns",
+          icon: "mdi-account-multiple-outline",
+          title: "Users",
+          to: "/users",
         },
         {
-          icon: "mdi-account-multiple-outline",
-          title: "People",
-          to: "/people",
+          icon: "mdi-account-group",
+          title: "Suppliers",
+          to: "/suppliers",
+        },
+        {
+          icon: "mdi-clipboard-text",
+          title: "Orders",
+          to: "/orders",
         },
         {
           icon: "mdi-script-text-outline",

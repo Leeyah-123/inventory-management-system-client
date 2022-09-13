@@ -1,19 +1,14 @@
 <template>
   <v-app light>
-    <div></div>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <NuxtLink to="/"> Home page </NuxtLink>
+    <v-main>
+      <Nuxt />
+    </v-main>
   </v-app>
 </template>
 
 <script>
 export default {
-  name: "EmptyLayout",
+  name: "AuthLayout",
   props: {
     error: {
       type: Object,
@@ -27,10 +22,8 @@ export default {
     };
   },
   head() {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
     return {
-      title,
+      title: "IMS - Authentication Page",
     };
   },
 };

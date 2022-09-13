@@ -14,7 +14,7 @@
     >
       <div class="form-div">
         <v-text-field
-          v-model.trim="user.email"
+          v-model.trim="data.email"
           :rules="emailRules"
           label="Email"
           color="primary"
@@ -25,7 +25,7 @@
           required
         ></v-text-field>
         <v-text-field
-          v-model.trim="user.password"
+          v-model.trim="data.password"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="passwordRules"
           :type="showPassword ? 'text' : 'password'"
@@ -60,12 +60,14 @@
       </div>
     </v-form>
     <div>
-      <p>Don't have an account? <a href="../auth/signup">Sign Up</a></p>
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
+import Notify from "../../utils/Notifilix";
+
 export default {
   name: "LoginForm",
   data() {
@@ -73,19 +75,35 @@ export default {
       valid: true,
       showPassword: false,
       checkbox: false,
-      user: {
+      data: {
         email: "",
         password: "",
       },
-      emailRules: [(v) => !!v || "E-mail is required"],
-      passwordRules: [(v) => !!v || "Password is required"],
     };
   },
+  mixins: ["validationMixin"],
   methods: {
     async login() {
       await this.$refs.form.validate();
       if (!this.valid) return;
-      this.$router.replace("../");
+
+      try {
+        const response = await this.$axios.$post("/auth/login", this.data);
+
+        const token = response.token;
+        if (!this.checkbox) localStorage.setItem("token", token);
+        this.$store.commit("SET_TOKEN", token);
+        this.$axios.setHeader("AUTH_TOKEN", token);
+        Notify.success("Login successful!!!");
+
+        const user = await this.$axios.$get("/auth/profile");
+
+        this.$store.commit("SET_USER", user);
+        this.$router.replace("../");
+      } catch (err) {
+        console.log(err.response.data.message);
+        Notify.failure(err.response.data.message);
+      }
     },
   },
 };

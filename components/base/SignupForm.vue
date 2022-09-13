@@ -12,9 +12,18 @@
       light
       lazy-validation
     >
+      <v-alert
+        shaped
+        colored-border
+        color="blue"
+        transition="scale-transition"
+        v-if="error"
+      >
+        {{ error }}
+      </v-alert>
       <div class="form-div">
         <v-text-field
-          v-model.trim="user.firstname"
+          v-model.trim="user.firstName"
           :rules="firstnameRules"
           label="First Name"
           light
@@ -23,7 +32,7 @@
           required
         ></v-text-field>
         <v-text-field
-          v-model.trim="user.lastname"
+          v-model.trim="user.lastName"
           :rules="lastnameRules"
           label="Last Name"
           color="primary"
@@ -70,7 +79,7 @@
           @click:append="showPassword = !showPassword"
         ></v-text-field>
         <v-text-field
-          v-model.trim="confirmPassword"
+          v-model.trim="user.confirmPassword"
           :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="confirmPasswordRules"
           :type="showConfirmPassword ? 'text' : 'password'"
@@ -96,9 +105,11 @@
       <div class="btn-div">
         <v-btn
           :disabled="!valid"
+          :loading="loading"
           color="primary"
           class="signup-btn"
           @click.prevent="register"
+          @click="loader = 'loading'"
           light
         >
           Sign Up
@@ -106,67 +117,63 @@
       </div>
     </v-form>
     <div>
-      <p>Already have an account? <a href="../auth/login">Login</a></p>
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
+import Notify from "../../utils/Notifilix";
+
 export default {
   name: "SignupForm",
   data() {
     return {
       valid: true,
-      confirmPassword: "",
       showPassword: false,
       showConfirmPassword: false,
       checkbox: false,
+      loader: null,
+      loading: false,
+      error: "",
       user: {
-        firstname: "",
-        lastname: "",
+        firstName: "",
+        lastName: "",
         email: "",
         phoneNumber: "",
         password: "",
+        confirmPassword: "",
       },
-      firstnameRules: [
-        (v) => !!v || "First Name is required",
-        (v) =>
-          (v && v.length >= 3) || "First Name must be more than 3 characters",
-        (v) => /^[a-zA-Z ]+$/.test(v) || "Invalid First Name",
-      ],
-      lastnameRules: [
-        (v) => !!v || "Last Name is required",
-        (v) =>
-          (v && v.length >= 3) || "Last Name must be more than 3 characters",
-        (v) => /^[a-zA-Z ]+$/.test(v) || "Invalid Last Name",
-      ],
-      emailRules: [
-        (v) => !!v || "E-mail is required",
-        (v) => /[a-z0-9]+@[a-z]+.[a-z]{2,3}/.test(v) || "Invalid E-mail",
-      ],
-      phoneNumRules: [
-        (v) => !!v || "Phone Number is required",
-        (v) =>
-          /[0-1]{1}[7-9]{1}[0-1]{1}[0-9]{8}/.test(v) || "Invalid Phone Number",
-      ],
-      passwordRules: [
-        (v) => !!v || "Password is required",
-        (v) =>
-          /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{5,})/.test(
-            v
-          ) || "Invalid Password format",
-      ],
-      confirmPasswordRules: [
-        (v) => !!v || "Confirm password is required",
-        (v) => v === this.user.password || "Passwords do not match",
-      ],
     };
   },
+  mixins: ["validationMixin"],
   methods: {
     async register() {
       await this.$refs.form.validate();
       if (!this.valid) return;
-      this.$router.replace("../");
+
+      try {
+        this.loader = true;
+        const response = await this.$axios.$post("/auth/signup", this.user);
+
+        const token = response.token;
+        localStorage.setItem("token", token);
+        this.$store.commit("SET_TOKEN", token);
+        this.$axios.setHeader("AUTH_TOKEN", token);
+        this.loader = null;
+        Notify.success("Login successful!!!");
+
+        const user = await this.$axios.$get("/auth/profile");
+
+        this.$store.commit("SET_USER", user);
+        this.$router.replace("/");
+      } catch (err) {
+        console.log(err.response.data);
+        if (err.response.status !== 422) {
+          Notify.failure(err.response.data.message);
+        } else Notify.failure(err.response.data.error);
+        this.loader = null;
+      }
     },
   },
 };

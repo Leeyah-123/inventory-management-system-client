@@ -3,6 +3,7 @@ import colors from "vuetify/es5/util/colors";
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  target: "static",
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -33,6 +34,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     "@nuxtjs/vuetify",
+    "@nuxtjs/google-fonts",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -41,15 +43,32 @@ export default {
     "@nuxtjs/axios",
   ],
 
+  loading: {
+    color: "blue",
+  },
+
+  loadingIndicator: {
+    name: "rectangle-bounce",
+    background: "blue",
+    color: "#fff",
+  },
+
+  pageTransition: "fade",
+  layoutTransition: {
+    name: "my-layouts",
+    mode: "out-in",
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "/",
+    baseURL: "http://localhost:5000/api/",
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
+    treeShake: true,
     theme: {
       dark: false,
       light: true,
@@ -64,6 +83,16 @@ export default {
           success: colors.green.accent3,
         },
       },
+    },
+  },
+
+  googleFonts: {
+    download: true,
+    base64: true,
+    families: {
+      "Yeseva One": true,
+      Philosopher: true,
+      "Playfair Display": true,
     },
   },
 
