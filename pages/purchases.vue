@@ -1,9 +1,12 @@
-<template></template>
+<template>
+  <PurchaseComponent />
+</template>
 
 <script>
+import PurchaseComponent from "../components/core/PurchaseComponent.vue";
 export default {
   name: "PurchasesPage",
-  middleware: ["auth"],
+  components: { PurchaseComponent },
 };
 </script>
 

@@ -1,13 +1,23 @@
 <template>
-  <v-app light>
-    <div></div>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <NuxtLink to="/"> Home page </NuxtLink>
+  <v-app dark class="poppins">
+    <div
+      v-if="error.statusCode === 404"
+      class="d-flex flex-column align-center"
+    >
+      <v-img
+        src="https://res.cloudinary.com/mid-assets/image/upload/v1654777178/mid/illustrations/404_jlhja8.png"
+        height="55%"
+        width="55%"
+      />
+      <p>{{ pageNotFound }}</p>
+    </div>
+    <div v-else class="d-flex flex-column align-center">
+      <v-img
+        src="https://res.cloudinary.com/mid-assets/image/upload/v1654777181/mid/illustrations/server_error_bp1nio.png"
+      />
+      <p class="baloo-bai">{{ otherError }}</p>
+    </div>
+    <NuxtLink to="/" class="text-center"> Home page </NuxtLink>
   </v-app>
 </template>
 

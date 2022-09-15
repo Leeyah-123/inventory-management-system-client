@@ -54,11 +54,6 @@ export default {
           to: "/suppliers",
         },
         {
-          icon: "mdi-clipboard-text",
-          title: "Orders",
-          to: "/orders",
-        },
-        {
           icon: "mdi-script-text-outline",
           title: "Reports",
           to: "/reports",

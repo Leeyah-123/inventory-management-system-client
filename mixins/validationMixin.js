@@ -14,6 +14,15 @@ export default {
           (v && v.length >= 3) || "Last Name must be more than 3 characters",
         (v) => /^[a-zA-Z ]+$/.test(v) || "Invalid Last Name",
       ],
+      nameRules: [
+        (v) => !!v || "Field is required",
+        (v) => (v && v.length >= 3) || "Field must be more than 3 characters",
+        (v) => /^[a-zA-Z ]+$/.test(v) || "Invalid Input",
+      ],
+      addressRules: [
+        (v) => !!v || "Field is required",
+        (v) => (v && v.length >= 3) || "Field must be more than 3 characters",
+      ],
       emailRules: [
         (v) => !!v || "E-mail is required",
         (v) => /[a-z0-9]+@[a-z]+.[a-z]{2,3}/.test(v) || "Invalid E-mail",
@@ -38,7 +47,11 @@ export default {
         (v) => !!v || "Field is required",
         (v) => !isNaN(v) || "Integer only field",
       ],
-      productCodeRules: [],
+      productCodeRules: [
+        (v) => !!v || "Field is required",
+        (v) =>
+          (v && v.length >= 3) || "Field must be more than 3 characters long",
+      ],
     };
   },
 };

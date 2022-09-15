@@ -5,7 +5,7 @@
       mobile-breakpoint="sm"
       fixed
       floating
-      :mini-variant.sync="mini"
+      :mini-variant="mini"
       app
     >
       <template v-slot:prepend>
@@ -94,37 +94,24 @@
 
 <script>
 import NavList from "../components/base/NavList.vue";
-import Notify from "../utils/Notifilix";
 
 export default {
   name: "DefaultLayout",
-  async created() {
-    if (!this.$store.state.user) {
-      console.log("No user");
-
-      const token = localStorage.getItem("token");
-      console.log("Token ", token);
-
-      this.$axios.setHeaders("AUTH_TOKEN", token);
-
-      try {
-        const user = await this.$axios.$get("/auth/profile");
-        this.$store.commit("SET_USER", user);
-      } catch (err) {
-        Notify.failure(err.response);
-      }
-    }
-  },
   data() {
     return {
       mini: true,
       drawer: true,
       selectedItem: 1,
-      user: {
-        firstName: "aaliyah",
-      },
-      items: [{ text: "SignOut", to: "/signout", icon: "mdi-logout" }],
+      items: [
+        { text: "Profile", to: "/profile", icon: "mdi-account" },
+        { text: "SignOut", to: "/signout", icon: "mdi-logout" },
+      ],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.modules.auth.user;
+    },
   },
   components: { NavList },
   middleware: ["auth"],

@@ -1,9 +1,13 @@
-<template></template>
+<template>
+  <SupplierComponent />
+</template>
 
 <script>
+import SupplierComponent from "../components/core/SupplierComponent.vue";
+
 export default {
   name: "SuppliersPage",
-  middleware: ["auth"],
+  components: { SupplierComponent },
 };
 </script>
 

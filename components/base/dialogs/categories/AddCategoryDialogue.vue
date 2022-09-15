@@ -1,18 +1,14 @@
 <template>
-  <v-dialog v-model="dialog" transition="scroll-y-transition" width="300px">
-    <template #activator="{ on: card, attrs }">
-      <v-tooltip top>
-        <template #activator="{ on: tooltip }">
-          <v-btn v-bind="attrs" v-on="{ ...tooltip, ...card }" icon>
-            <v-icon> mdi-pencil </v-icon>
-          </v-btn>
-        </template>
-        <span class="poppins">Edit Product</span>
-      </v-tooltip>
+  <v-dialog v-model="dialog" width="300px">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn v-on="on" v-bind="attrs" color="primary" elevation="0" dark>
+        <v-icon left> mdi-plus </v-icon> Add Category
+      </v-btn>
     </template>
+
     <v-card>
       <v-toolbar dark color="primary">
-        <v-toolbar-title>Edit Product</v-toolbar-title>
+        <v-toolbar-title>New Category</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn dark text @click="submit" :loading="loading"> Save </v-btn>
@@ -30,18 +26,9 @@
               {{ error_message }}
             </v-alert>
             <v-text-field
-              v-model="data.id"
-              label="Category ID"
-              type="number"
-              disabled
-              dense
-              required
-              outlined
-            ></v-text-field>
-            <v-text-field
               v-model="data.categoryName"
               :rules="nameRules"
-              label="Category Name*"
+              label="Category Name"
               type="text"
               required
               dense
@@ -49,7 +36,6 @@
             ></v-text-field>
           </v-form>
         </v-container>
-        <small>*Indicates required field</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -72,21 +58,25 @@ import { Loading } from "notiflix/build/notiflix-loading-aio";
 import { Report } from "notiflix/build/notiflix-report-aio";
 
 export default {
-  name: "EditCategoryDialogue",
-  props: {
-    category: {
-      type: Object,
-      required: true,
-    },
-  },
+  name: "AddProductDialogue",
   data: () => ({
     error: false,
     error_message: "",
     dialog: false,
     valid: true,
     loading: false,
+    data: {
+      categoryName: "",
+    },
   }),
   mixins: [validationMixin],
+  async fetch() {
+    await this.$store.dispatch("modules/categories/getAllCategories");
+    if (this.categories === []) {
+      this.error = true;
+      this.error_message = "No category has been added!";
+    }
+  },
   methods: {
     async submit() {
       await this.$refs.form.validate();
@@ -94,30 +84,24 @@ export default {
 
       this.loading = true;
       try {
-        Loading.dots("Updating category details...");
-        await this.$store.dispatch(
-          "modules/categories/updateCategory",
-          this.data
-        );
+        Loading.dots("Saving category details...");
+        await this.$store.dispatch("modules/categories/addCategory", this.data);
 
         Loading.remove();
         this.loading = false;
+        this.resetFields();
         this.dialog = false;
       } catch (err) {
         console.log("error", err.message);
         console.log("error", err.response.data);
         Loading.remove();
         Report.failure("Error", err.response.data, "Ok");
+        this.resetFields();
         this.loading = false;
       }
     },
-  },
-  computed: {
-    data() {
-      return {
-        id: this.category.id,
-        categoryName: this.category.categoryName,
-      };
+    resetFields() {
+      this.data.categoryName = "";
     },
   },
 };

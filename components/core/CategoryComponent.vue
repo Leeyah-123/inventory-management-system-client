@@ -12,21 +12,20 @@
           categories
         </p>
       </div>
-      <div class="search align-self-center d-xs-flex">
-        <v-text-field
-          prepend-inner-icon="mdi-magnify"
-          v-model="categorySearch"
-          placeholder="Search for category"
-          outlined
-          dense
-          class="Yeseva One ml-md-auto"
-        />
+
+      <div class="add-btn align-center d-flex justify-sm-start justify-md-end">
+        <AddCategoryDialogue />
       </div>
     </v-container>
     <v-container class="d-sm-flex justify-end" fluid>
-      <v-btn color="blue lighten-2" elevation="0" dark>
-        <v-icon left> mdi-plus </v-icon> Add Category
-      </v-btn>
+      <v-text-field
+        prepend-inner-icon="mdi-magnify"
+        v-model="categorySearch"
+        placeholder="Search for category"
+        outlined
+        dense
+        class="Yeseva One"
+      />
     </v-container>
     <v-container fluid>
       <v-data-table
@@ -50,8 +49,10 @@
 </template>
 
 <script>
+import AddCategoryDialogue from "../base/dialogs/categories/AddCategoryDialogue.vue";
 import EditCategoryDialogue from "../base/dialogs/categories/EditCategoryDialogue.vue";
 import DeleteCategoryDialogue from "../base/dialogs/categories/DeleteCategoryDialogue.vue";
+import Notify from "../../utils/Notifilix";
 
 export default {
   name: "CategoryComponent",
@@ -71,7 +72,11 @@ export default {
       }
     },
   },
-  components: { EditCategoryDialogue, DeleteCategoryDialogue },
+  components: {
+    AddCategoryDialogue,
+    EditCategoryDialogue,
+    DeleteCategoryDialogue,
+  },
   computed: {
     categoryTableHeader() {
       return [
@@ -105,7 +110,7 @@ export default {
 .title {
   width: 50%;
 }
-.search {
+.add-btn {
   width: 50%;
 }
 .v-text-field {

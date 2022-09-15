@@ -1,9 +1,13 @@
-<template></template>
+<template>
+  <SalesComponent />
+</template>
 
 <script>
+import SalesComponent from "../components/core/SalesComponent.vue";
+
 export default {
   name: "SalesPage",
-  middleware: ["auth"],
+  components: { SalesComponent },
 };
 </script>
 

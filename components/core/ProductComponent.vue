@@ -13,22 +13,19 @@
           appealing way.
         </p>
       </div>
-      <div class="search align-self-center d-xs-flex">
-        <v-text-field
-          prepend-inner-icon="mdi-magnify"
-          v-model="productSearch"
-          placeholder="Search for product"
-          outlined
-          dense
-          class="Yeseva One ml-md-auto"
-        />
+      <div class="add-btn align-center d-flex justify-sm-start justify-md-end">
+        <AddProductDialogue class="ml-md-auto" />
       </div>
     </v-container>
     <v-container class="d-sm-flex justify-end" fluid>
-      <!-- <v-btn color="blue lighten-2" elevation="0" dark>
-        <v-icon left> mdi-plus </v-icon> Add Product
-      </v-btn> -->
-      <AddProductDialogue />
+      <v-text-field
+        prepend-inner-icon="mdi-magnify"
+        v-model="productSearch"
+        placeholder="Search for product"
+        outlined
+        dense
+        class="Yeseva One"
+      />
     </v-container>
     <v-container fluid>
       <v-data-table
@@ -130,7 +127,7 @@ export default {
 .title {
   width: 50%;
 }
-.search {
+.add-btn {
   width: 50%;
 }
 .v-text-field {

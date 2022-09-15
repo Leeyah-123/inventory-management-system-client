@@ -15,3 +15,15 @@ export const mutations = {
     state.user = user;
   },
 };
+
+export const actions = {
+  setAuthenticated(context, payload) {
+    context.commit("SET_AUTHENTICATED", payload);
+  },
+  setToken(context, payload) {
+    context.commit("SET_TOKEN", payload);
+  },
+  setUser(context, payload) {
+    context.commit("SET_USER", payload);
+  },
+};

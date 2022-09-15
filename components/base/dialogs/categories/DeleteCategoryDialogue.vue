@@ -19,7 +19,9 @@
           </div>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn text @click="deleteCategory(item)" color="primary">Yes</v-btn>
+          <v-btn text @click="deleteCategory(category)" color="primary"
+            >Yes</v-btn
+          >
           <v-btn text @click="dialog.value = false" color="red lighten-1"
             >Cancel</v-btn
           >
@@ -30,6 +32,8 @@
 </template>
 
 <script>
+import Notify from "../../../../utils/Notifilix";
+
 export default {
   name: "DeleteCategoryDialogue",
   props: {
@@ -51,6 +55,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

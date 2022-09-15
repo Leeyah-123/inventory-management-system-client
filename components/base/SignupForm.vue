@@ -124,6 +124,7 @@
 
 <script>
 import Notify from "../../utils/Notifilix";
+import validationMixin from "../../mixins/validationMixin";
 
 export default {
   name: "SignupForm",
@@ -146,7 +147,7 @@ export default {
       },
     };
   },
-  mixins: ["validationMixin"],
+  mixins: [validationMixin],
   methods: {
     async register() {
       await this.$refs.form.validate();
@@ -158,14 +159,9 @@ export default {
 
         const token = response.token;
         localStorage.setItem("token", token);
-        this.$store.commit("SET_TOKEN", token);
-        this.$axios.setHeader("AUTH_TOKEN", token);
         this.loader = null;
         Notify.success("Login successful!!!");
 
-        const user = await this.$axios.$get("/auth/profile");
-
-        this.$store.commit("SET_USER", user);
         this.$router.replace("/");
       } catch (err) {
         console.log(err.response.data);

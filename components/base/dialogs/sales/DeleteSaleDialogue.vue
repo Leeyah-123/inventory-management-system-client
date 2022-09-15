@@ -7,7 +7,7 @@
             <v-icon> mdi-delete </v-icon>
           </v-btn>
         </template>
-        <span class="poppins">Delete Product</span>
+        <span class="poppins">Delete Sale</span>
       </v-tooltip>
     </template>
     <template v-slot:default="dialog">
@@ -15,13 +15,11 @@
         <v-toolbar color="primary" dense dark>Confirm</v-toolbar>
         <v-card-text>
           <div class="pa-5">
-            <strong>Are you sure you want to delete this product?</strong>
+            <strong>Are you sure you want to delete this sale?</strong>
           </div>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn text @click="deleteProduct(product)" color="primary"
-            >Yes</v-btn
-          >
+          <v-btn text @click="deleteSale(sale)" color="primary">Yes</v-btn>
           <v-btn text @click="dialog.value = false" color="red lighten-1"
             >Cancel</v-btn
           >
@@ -35,9 +33,9 @@
 import Notify from "../../../../utils/Notifilix";
 
 export default {
-  name: "DeleteProductDialogue",
+  name: "DeleteSaleDialogue",
   props: {
-    product: {
+    sale: {
       type: Object,
       required: true,
     },
@@ -46,9 +44,9 @@ export default {
     dialog: false,
   }),
   methods: {
-    deleteProduct(product) {
-      this.$store.dispatch("modules/products/deleteProduct", product);
-      if (!this.$store.state.modules.products.error) {
+    deleteSale(sale) {
+      this.$store.dispatch("modules/sales/deleteSales", sale);
+      if (!this.$store.state.modules.sales.error) {
         Notify.success("Delete successful");
       }
     },
