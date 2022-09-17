@@ -34,7 +34,7 @@
           <EditUserDialogue :user="item" />
 
           <!-- delete dialog -->
-          <DeleteUserDialogue :user="item" />
+          <!-- <DeleteUserDialogue :user="item" /> -->
         </template>
       </v-data-table>
     </v-container>

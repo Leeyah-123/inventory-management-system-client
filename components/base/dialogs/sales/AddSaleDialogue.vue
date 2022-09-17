@@ -59,7 +59,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="data.paid"
+                  v-model.number="data.paid"
                   :rules="numberRules"
                   label="Amount Paid(#)*"
                   type="number"
@@ -68,7 +68,7 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="data.quantity"
+                  v-model.number="data.quantity"
                   :rules="numberRules"
                   label="Quantity*"
                   type="number"
@@ -77,7 +77,7 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="data.tax"
+                  v-model.number="data.tax"
                   :rules="numberRules"
                   label="Tax*"
                   type="number"

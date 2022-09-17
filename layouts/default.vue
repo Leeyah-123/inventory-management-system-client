@@ -36,13 +36,20 @@
           ></v-app-bar-nav-icon>
         </div>
 
-        <v-text-field
+        <v-autocomplete
+          v-model="searchText"
           prepend-inner-icon="mdi-magnify"
           class="py-3"
           outlined
           dense
           placeholder="Search here..."
-        />
+          @input="search"
+          :items="searchItems"
+          :filter="customFilter"
+          color="white"
+          item-text="name"
+          label="Search here..."
+        ></v-autocomplete>
         <v-spacer />
         <v-menu transition="slide-y-transition" :offset-y="true">
           <template v-slot:activator="{ on, attrs }">
@@ -102,15 +109,45 @@ export default {
       mini: true,
       drawer: true,
       selectedItem: 1,
+      searchText: "",
       items: [
         { text: "Profile", to: "/profile", icon: "mdi-account" },
         { text: "SignOut", to: "/signout", icon: "mdi-logout" },
+      ],
+      searchItems: [
+        { name: "Dashboard", abbr: "Dash", id: 1 },
+        { name: "Categories", abbr: "Category", id: 2 },
+        { name: "Suppliers", abbr: "Supplier", id: 3 },
+        { name: "Sales", abbr: "Sale", id: 4 },
+        { name: "Products", abbr: "Product", id: 5 },
       ],
     };
   },
   computed: {
     user() {
       return this.$store.state.modules.auth.user;
+    },
+  },
+  methods: {
+    search() {
+      if (this.searchText === "Dashboard") this.$router.push("/");
+      else if (this.searchText === "Categories")
+        this.$router.push("../categories");
+      else if (this.searchText === "Suppliers")
+        this.$router.push("../suppliers");
+      else if (this.searchText === "Sales") this.$router.push("../sales");
+      else if (this.searchText === "Products") this.$router.push("../products");
+
+      if (this.searchText !== null) this.searchText === "";
+    },
+    customFilter(item, queryText, itemText) {
+      const textOne = item.name.toLowerCase();
+      const textTwo = item.abbr.toLowerCase();
+      const searchText = queryText.toLowerCase();
+
+      return (
+        textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
+      );
     },
   },
   components: { NavList },

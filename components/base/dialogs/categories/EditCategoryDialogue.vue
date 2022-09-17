@@ -30,7 +30,7 @@
               {{ error_message }}
             </v-alert>
             <v-text-field
-              v-model="data.id"
+              v-model.number="data.id"
               label="Category ID"
               type="number"
               disabled

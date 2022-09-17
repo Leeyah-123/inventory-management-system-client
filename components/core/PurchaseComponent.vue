@@ -44,7 +44,10 @@
         </template>
 
         <!--    Actions slot      -->
-        <template #[`item.actions`]="{ item }">
+        <template
+          v-if="$store.state.modules.auth.user.role === 'admin'"
+          #[`item.actions`]="{ item }"
+        >
           <!-- edit dialog -->
           <EditPurchaseDialogue :purchase="item" />
 
@@ -93,7 +96,7 @@ export default {
   },
   computed: {
     purchaseTableHeader() {
-      return [
+      const headers = [
         {
           text: "Purchase Id",
           value: "id",
@@ -142,6 +145,10 @@ export default {
         },
         { text: "Actions", value: "actions", class: "primary white--text" },
       ];
+
+      if (this.$store.state.modules.auth.user.role !== "admin")
+        delete headers[10];
+      return headers;
     },
     error() {
       return this.$store.state.modules.purchases.error;

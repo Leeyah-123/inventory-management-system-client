@@ -37,7 +37,7 @@
                   outlined
                 ></v-text-field>
                 <v-select
-                  v-model="data.supplierId"
+                  v-model.number="data.supplierId"
                   :rules="numberRules"
                   :items="suppliers"
                   label="Supplier ID*"
@@ -58,7 +58,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="data.total"
+                  v-model.number="data.total"
                   :rules="numberRules"
                   label="Product Price(#)*"
                   type="number"
@@ -67,7 +67,7 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="data.paid"
+                  v-model.number="data.paid"
                   :rules="numberRules"
                   label="Amount Paid(#)*"
                   type="number"

@@ -39,14 +39,14 @@
           @click:append="showPassword = !showPassword"
         ></v-text-field>
       </div>
-      <div class="checkbox-div">
+      <!-- <div class="checkbox-div">
         <v-checkbox
           v-model="checkbox"
           label="Remember Me"
           color="primary"
           light
         ></v-checkbox>
-      </div>
+      </div> -->
       <div class="btn-div">
         <v-btn
           :disabled="!valid"
@@ -75,7 +75,6 @@ export default {
     return {
       valid: true,
       showPassword: false,
-      checkbox: false,
       data: {
         email: "",
         password: "",
@@ -92,12 +91,16 @@ export default {
         const response = await this.$axios.$post("/auth/login", this.data);
 
         const token = response.token;
-        if (this.checkbox) localStorage.setItem("token", token);
+        localStorage.setItem("token", token);
         Notify.success("Login successful!!!");
 
         this.$router.replace("/");
       } catch (err) {
-        Notify.failure(err.response.data.message);
+        if (err.response.data.message)
+          Notify.failure(err.response.data.message);
+        else if (err.response.data.error)
+          Notify.failure(err.response.data.message);
+        else Notify.failure("Something went wrong");
       }
     },
   },

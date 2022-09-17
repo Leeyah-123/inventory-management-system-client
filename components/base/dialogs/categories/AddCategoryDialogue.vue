@@ -58,7 +58,7 @@ import { Loading } from "notiflix/build/notiflix-loading-aio";
 import { Report } from "notiflix/build/notiflix-report-aio";
 
 export default {
-  name: "AddProductDialogue",
+  name: "AddCategoryDialogue",
   data: () => ({
     error: false,
     error_message: "",

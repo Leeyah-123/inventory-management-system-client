@@ -160,14 +160,16 @@ export default {
         const token = response.token;
         localStorage.setItem("token", token);
         this.loader = null;
-        Notify.success("Login successful!!!");
+        Notify.success("Signup successful!!!");
 
         this.$router.replace("/");
       } catch (err) {
         console.log(err.response.data);
-        if (err.response.status !== 422) {
+        if (err.response.data.message)
           Notify.failure(err.response.data.message);
-        } else Notify.failure(err.response.data.error);
+        else if (err.response.data.error)
+          Notify.failure(err.response.data.error);
+        else Notify.failure("Something went wrong");
         this.loader = null;
       }
     },

@@ -7,7 +7,7 @@ import UserComponent from "../components/core/UserComponent.vue";
 export default {
   name: "UsersPage",
   components: { UserComponent },
-  middleware: ["roleBasedAuthentication"]
+  middleware: ["roleBasedAuthentication"],
 };
 </script>
 

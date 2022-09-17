@@ -78,7 +78,7 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="data.price"
+                  v-model.number="data.price"
                   :rules="numberRules"
                   label="Selling Price(#)*"
                   type="number"
@@ -96,7 +96,7 @@
                   outlined
                 ></v-select>
                 <v-text-field
-                  v-model="data.costPrice"
+                  v-model.number="data.costPrice"
                   :rules="numberRules"
                   label="Cost Price(#)*"
                   type="number"
@@ -105,7 +105,7 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="data.quantity"
+                  v-model.number="data.quantity"
                   :rules="numberRules"
                   label="Qty In Stock*"
                   type="number"
@@ -173,7 +173,7 @@ export default {
       costPrice: 0,
       quantity: 0,
       productImg: "",
-      productImgId: "",
+      productImageId: "",
     },
   }),
   mixins: [validationMixin],
@@ -210,7 +210,7 @@ export default {
           );
 
           this.data.productImg = response.url;
-          this.data.productImgId = response.id;
+          this.data.productImageId = response.id;
           Loading.remove();
         }
 

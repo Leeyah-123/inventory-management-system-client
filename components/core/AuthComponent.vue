@@ -4,24 +4,24 @@
       <v-row>
         <v-col>
           <v-window v-model="step">
-            <v-window-item :value="1" id="signup">
-              <div class="signup-form-container">
-                <SignupForm>
-                  <p>
-                    Already have an account?
-                    <span class="link" @click="step++">Login</span>
-                  </p>
-                </SignupForm>
-              </div>
-            </v-window-item>
-            <v-window-item :value="2" id="login"
+            <v-window-item :value="1" id="login"
               ><div class="login-form-container">
                 <LoginForm>
                   <p>
                     Don't have an account?
-                    <span class="link" @click="step--">Sign Up</span>
+                    <span class="link" @click="step++">Sign Up</span>
                   </p>
                 </LoginForm>
+              </div>
+            </v-window-item>
+            <v-window-item :value="2" id="signup">
+              <div class="signup-form-container">
+                <SignupForm>
+                  <p>
+                    Already have an account?
+                    <span class="link" @click="step--">Login</span>
+                  </p>
+                </SignupForm>
               </div>
             </v-window-item>
           </v-window>
