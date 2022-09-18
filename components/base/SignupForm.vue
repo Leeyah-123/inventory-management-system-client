@@ -164,7 +164,6 @@ export default {
 
         this.$router.replace("/");
       } catch (err) {
-        console.log(err.response.data);
         if (err.response.data.message)
           Notify.failure(err.response.data.message);
         else if (err.response.data.error)
