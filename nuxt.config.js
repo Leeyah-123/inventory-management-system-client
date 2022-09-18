@@ -91,7 +91,7 @@ export default {
     base64: true,
     families: {
       "Yeseva One": true,
-      Philosopher: true,
+      // Philosopher: true,
       "Playfair Display": true,
     },
   },
