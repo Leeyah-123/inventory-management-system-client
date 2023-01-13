@@ -39,7 +39,7 @@
         <v-autocomplete
           v-model="searchText"
           prepend-inner-icon="mdi-magnify"
-          class="py-3"
+          class="py-3 hidden-sm-and-down"
           outlined
           dense
           placeholder="Search here..."
