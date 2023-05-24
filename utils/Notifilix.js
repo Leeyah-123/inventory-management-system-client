@@ -1,5 +1,4 @@
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-import { Report } from "notiflix/build/notiflix-report-aio";
 
 Notify.init({
   width: "280px",

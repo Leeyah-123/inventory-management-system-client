@@ -5,39 +5,15 @@
       <p>Welcome Back!</p>
     </v-container>
 
-    <v-form
-      ref="form"
-      v-model="valid"
-      @keypress.enter="login"
-      light
-      lazy-validation
-    >
+    <v-form ref="form" v-model="valid" @keypress.enter="login" light lazy-validation>
       <div class="form-div">
-        <v-text-field
-          v-model.trim="data.email"
-          :rules="emailRules"
-          label="Email"
-          color="primary"
-          hint="eg. example@example.com"
-          dense
-          light
-          outlined
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model.trim="data.password"
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="passwordRules"
-          :type="showPassword ? 'text' : 'password'"
+        <v-text-field v-model.trim="data.email" :rules="emailRules" label="Email" color="primary"
+          hint="eg. example@example.com" dense light outlined required></v-text-field>
+        <v-text-field v-model.trim="data.password" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="passwordRules" :type="showPassword ? 'text' : 'password'"
           hint="Password must contain at least one uppercase character and one lowercase character, minimum of 5 characters"
-          label="Password"
-          color="primary"
-          dense
-          light
-          outlined
-          required
-          @click:append="showPassword = !showPassword"
-        ></v-text-field>
+          label="Password" color="primary" dense light outlined required
+          @click:append="showPassword = !showPassword"></v-text-field>
       </div>
       <!-- <div class="checkbox-div">
         <v-checkbox
@@ -48,13 +24,7 @@
         ></v-checkbox>
       </div> -->
       <div class="btn-div">
-        <v-btn
-          :disabled="!valid"
-          color="primary"
-          class="login-btn"
-          @click.prevent="login"
-          light
-        >
+        <v-btn :disabled="!valid" :loading="loading" color="primary" class="login-btn" @click.prevent="login" light>
           Login
         </v-btn>
       </div>
@@ -74,6 +44,7 @@ export default {
   data() {
     return {
       valid: true,
+      loading: false,
       showPassword: false,
       data: {
         email: "",
@@ -88,7 +59,9 @@ export default {
       if (!this.valid) return;
 
       try {
+        this.loading = true;
         const response = await this.$axios.$post("/auth/login", this.data);
+        this.loading = false;
 
         const token = response.token;
         localStorage.setItem("token", token);

@@ -1,114 +1,52 @@
 <template>
-  <div v-if="$fetchState.pending">
+  <div v-if="$fetchState.pending || loading">
     <v-skeleton-loader type="card" />
   </div>
   <v-container v-else class="PlayFair Display" fluid>
     <v-row class="mt-2">
       <v-col cols="12" sm="6" md="3">
-        <MaterialStatsCard
-          color="primary"
-          class="my-6"
-          icon="mdi-cart-outline"
-          title="Products"
-          :value="productsCount"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
+        <MaterialStatsCard color="primary" class="my-6" icon="mdi-cart-outline" title="Products" :value="productsCount"
+          sub-icon="mdi-clock" sub-text="Just Updated" />
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <MaterialStatsCard
-          color="primary"
-          class="my-6"
-          icon="mdi-animation-outline"
-          title="Categories"
-          :value="categoriesCount"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
+        <MaterialStatsCard color="primary" class="my-6" icon="mdi-animation-outline" title="Categories"
+          :value="categoriesCount" sub-icon="mdi-clock" sub-text="Just Updated" />
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <MaterialStatsCard
-          color="primary"
-          class="my-6"
-          icon="mdi-finance"
-          title="Sales"
-          :value="salesCount"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
+        <MaterialStatsCard color="primary" class="my-6" icon="mdi-finance" title="Sales" :value="salesCount"
+          sub-icon="mdi-clock" sub-text="Just Updated" />
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <MaterialStatsCard
-          color="primary"
-          class="my-6"
-          icon="mdi-cash-multiple"
-          title="Purchases"
-          :value="purchasesCount"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
+        <MaterialStatsCard color="primary" class="my-6" icon="mdi-cash-multiple" title="Purchases" :value="purchasesCount"
+          sub-icon="mdi-clock" sub-text="Just Updated" />
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <MaterialStatsCard
-          color="primary"
-          class="my-6"
-          icon="mdi-account-group"
-          title="Suppliers"
-          :value="suppliersCount"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
+        <MaterialStatsCard color="primary" class="my-6" icon="mdi-account-group" title="Suppliers" :value="suppliersCount"
+          sub-icon="mdi-clock" sub-text="Just Updated" />
       </v-col>
 
-      <v-col
-        cols="12"
-        sm="6"
-        md="3"
-        v-if="$store.state.modules.auth.user.role === 'admin'"
-      >
-        <MaterialStatsCard
-          color="primary"
-          class="my-6"
-          icon="mdi-account-multiple-outline"
-          title="Users"
-          :value="usersCount"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
+      <v-col cols="12" sm="6" md="3" v-if="$store.state.modules.auth.user.role === 'admin'">
+        <MaterialStatsCard color="primary" class="my-6" icon="mdi-account-multiple-outline" title="Users"
+          :value="usersCount" sub-icon="mdi-clock" sub-text="Just Updated" />
       </v-col>
     </v-row>
 
-    <div
-      class="d-flex-column justify-space-between"
-      v-if="$store.state.modules.auth.user.role === 'admin'"
-    >
+    <div class="d-flex-column justify-space-between" v-if="$store.state.modules.auth.user.role === 'admin'">
       <v-divider />
-      <v-container class="d-flex align-center justify-center"
-        ><h3>Reports</h3></v-container
-      >
+      <v-container class="d-flex align-center justify-center">
+        <h3>Reports</h3>
+      </v-container>
       <v-divider />
       <v-row class="mt-7">
         <v-col cols="12" sm="12" md="4">
           <v-card class="mt-4 mx-auto" max-width="400">
-            <v-sheet
-              class="v-sheet--offset mx-auto"
-              color="cyan"
-              elevation="12"
-              max-width="calc(100% - 32px)"
-            >
-              <v-sparkline
-                :labels="labels"
-                :value="value"
-                :type="type"
-                color="white"
-                line-width="2"
-                padding="16"
-                :auto-line-width="autoLineWidth"
-              ></v-sparkline>
+            <v-sheet class="v-sheet--offset mx-auto" color="cyan" elevation="12" max-width="calc(100% - 32px)">
+              <v-sparkline :labels="labels" :value="value" :type="type" color="white" line-width="2" padding="16"
+                :auto-line-width="autoLineWidth"></v-sparkline>
             </v-sheet>
 
             <v-card-text class="pt-0">
@@ -118,29 +56,15 @@
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small> mdi-clock </v-icon>
-              <span class="text-caption grey--text font-weight-light"
-                >Just Updated</span
-              >
+              <span class="text-caption grey--text font-weight-light">Just Updated</span>
             </v-card-text>
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" md="4">
           <v-card class="mt-4 mx-auto" max-width="400">
-            <v-sheet
-              class="v-sheet--offset mx-auto"
-              color="cyan"
-              elevation="12"
-              max-width="calc(100% - 32px)"
-            >
-              <v-sparkline
-                :labels="labels"
-                :value="value"
-                :type="type"
-                color="white"
-                line-width="2"
-                padding="16"
-                :auto-line-width="autoLineWidth"
-              ></v-sparkline>
+            <v-sheet class="v-sheet--offset mx-auto" color="cyan" elevation="12" max-width="calc(100% - 32px)">
+              <v-sparkline :labels="labels" :value="value" :type="type" color="white" line-width="2" padding="16"
+                :auto-line-width="autoLineWidth"></v-sparkline>
             </v-sheet>
 
             <v-card-text class="pt-0">
@@ -150,22 +74,14 @@
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small> mdi-clock </v-icon>
-              <span class="text-caption grey--text font-weight-light"
-                >Just Updated</span
-              >
+              <span class="text-caption grey--text font-weight-light">Just Updated</span>
             </v-card-text>
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" md="4">
           <v-card class="mt-4 mx-auto" max-width="400">
-            <v-sheet
-              class="v-sheet--offset mx-auto"
-              color="cyan"
-              elevation="12"
-              max-width="calc(100% - 32px)"
-              dark
-              height="105px"
-            >
+            <v-sheet class="v-sheet--offset mx-auto" color="cyan" elevation="12" max-width="calc(100% - 32px)" dark
+              height="105px">
               <v-container class="d-flex" dark fluid>
                 <v-avatar size="70">
                   <img :src="topProduct.productImg" alt="Product Image" />
@@ -191,9 +107,7 @@
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small> mdi-clock </v-icon>
-              <span class="text-caption grey--text font-weight-light"
-                >Just Updated</span
-              >
+              <span class="text-caption grey--text font-weight-light">Just Updated</span>
             </v-card-text>
           </v-card>
         </v-col>
@@ -208,6 +122,7 @@ import MaterialStatsCard from "../base/MaterialStatsCard.vue";
 export default {
   name: "DashboardComponent",
   async fetch() {
+    this.loading = true;
     await this.$store.dispatch("modules/products/getAllProducts");
     await this.$store.dispatch("modules/categories/getAllCategories");
     await this.$store.dispatch("modules/sales/getAllSales");
@@ -216,6 +131,7 @@ export default {
     if (this.$store.state.modules.auth.user.role === "admin") {
       await this.$store.dispatch("modules/users/getAllUsers");
     }
+    this.loading = false;
   },
   computed: {
     productsCount() {
@@ -248,6 +164,7 @@ export default {
     },
   },
   data: () => ({
+    loading: false,
     labels: ["12am", "3am", "6am", "9am", "12pm", "3pm", "6pm", "9pm"],
     value: [200, 675, 410, 390, 310, 460, 250, 240],
     type: "trend",
