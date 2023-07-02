@@ -199,7 +199,7 @@ export default {
           const headers = { "Content-Type": "multipart/form-data" };
           Loading.dots("Uploading image...");
           const response = await this.$axios.$patch(
-            `/products/image/${this.data.productCode}`,
+            `/products/image/${this.data.code}`,
             formData,
             {
               headers,
