@@ -5,113 +5,35 @@
       <p>Create your IMS account</p>
     </v-container>
 
-    <v-form
-      ref="form"
-      v-model="valid"
-      @keypress.enter="register"
-      light
-      lazy-validation
-    >
-      <v-alert
-        shaped
-        colored-border
-        color="blue"
-        transition="scale-transition"
-        v-if="error"
-      >
+    <v-form ref="form" v-model="valid" @keypress.enter="register" light lazy-validation>
+      <v-alert shaped colored-border color="blue" transition="scale-transition" v-if="error">
         {{ error }}
       </v-alert>
       <div class="form-div">
-        <v-text-field
-          v-model.trim="user.firstName"
-          :rules="firstnameRules"
-          label="First Name"
-          light
-          dense
-          outlined
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model.trim="user.lastName"
-          :rules="lastnameRules"
-          label="Last Name"
-          color="primary"
-          dense
-          light
-          outlined
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model.trim="user.email"
-          :rules="emailRules"
-          label="Email"
-          color="primary"
-          hint="eg. example@example.com"
-          dense
-          light
-          outlined
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model.trim="user.phoneNumber"
-          :rules="phoneNumRules"
-          label="Phone Number"
-          color="primary"
-          hint="eg. 09056595890"
-          dense
-          light
-          outlined
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model.trim="user.password"
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="passwordRules"
-          :type="showPassword ? 'text' : 'password'"
+        <v-text-field v-model.trim="user.firstName" :rules="firstnameRules" label="First Name" light dense outlined
+          required></v-text-field>
+        <v-text-field v-model.trim="user.lastName" :rules="lastnameRules" label="Last Name" color="primary" dense light
+          outlined required></v-text-field>
+        <v-text-field v-model.trim="user.email" :rules="emailRules" label="Email" color="primary"
+          hint="eg. example@example.com" dense light outlined required></v-text-field>
+        <v-text-field v-model.trim="user.phoneNumber" :rules="phoneNumRules" label="Phone Number" color="primary"
+          hint="eg. 09056595890" dense light outlined required></v-text-field>
+        <v-text-field v-model.trim="user.password" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="passwordRules" :type="showPassword ? 'text' : 'password'"
           hint="Password must contain at least one uppercase character and one lowercase character, minimum of 5 characters"
-          label="Password"
-          color="primary"
-          persistent-hint
-          dense
-          light
-          outlined
-          required
-          @click:append="showPassword = !showPassword"
-        ></v-text-field>
-        <v-text-field
-          v-model.trim="user.confirmPassword"
-          :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="confirmPasswordRules"
-          :type="showConfirmPassword ? 'text' : 'password'"
-          color="primary"
-          label="Confirm Password"
-          dense
-          light
-          outlined
-          required
-          @click:append="showConfirmPassword = !showConfirmPassword"
-        ></v-text-field>
+          label="Password" color="primary" persistent-hint dense light outlined required
+          @click:append="showPassword = !showPassword"></v-text-field>
+        <v-text-field v-model.trim="user.confirmPassword" :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="confirmPasswordRules" :type="showConfirmPassword ? 'text' : 'password'" color="primary"
+          label="Confirm Password" dense light outlined required
+          @click:append="showConfirmPassword = !showConfirmPassword"></v-text-field>
       </div>
       <div class="checkbox-div">
-        <v-checkbox
-          v-model="checkbox"
-          :rules="[(v) => !!v || 'You must agree to continue!']"
-          label="I agree to the terms of use"
-          color="primary"
-          light
-          required
-        ></v-checkbox>
+        <v-checkbox v-model="checkbox" :rules="[(v) => !!v || 'You must agree to continue!']"
+          label="I agree to the terms of use" color="primary" light required></v-checkbox>
       </div>
       <div class="btn-div">
-        <v-btn
-          :disabled="!valid"
-          :loading="loading"
-          color="primary"
-          class="signup-btn"
-          @click.prevent="register"
-          @click="loader = 'loading'"
-          light
-        >
+        <v-btn :disabled="!valid" :loading="loading" color="primary" class="signup-btn" @click.prevent="register" light>
           Sign Up
         </v-btn>
       </div>
@@ -123,8 +45,8 @@
 </template>
 
 <script>
-import Notify from "../../utils/Notifilix";
 import validationMixin from "../../mixins/validationMixin";
+import Notify from "../../utils/Notifilix";
 
 export default {
   name: "SignupForm",
@@ -134,7 +56,6 @@ export default {
       showPassword: false,
       showConfirmPassword: false,
       checkbox: false,
-      loader: null,
       loading: false,
       error: "",
       user: {
@@ -154,22 +75,22 @@ export default {
       if (!this.valid) return;
 
       try {
-        this.loader = true;
+        this.loading = true;
         const response = await this.$axios.$post("/auth/signup", this.user);
 
         const token = response.token;
         localStorage.setItem("token", token);
-        this.loader = null;
+        this.loading = false;
         Notify.success("Signup successful!!!");
 
         this.$router.replace("/");
       } catch (err) {
+        this.loading = false;
         if (err.response.data.message)
           Notify.failure(err.response.data.message);
         else if (err.response.data.error)
           Notify.failure(err.response.data.error);
         else Notify.failure("Something went wrong");
-        this.loader = null;
       }
     },
   },
