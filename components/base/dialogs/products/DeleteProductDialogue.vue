@@ -44,7 +44,7 @@ export default {
   }),
   methods: {
     async deleteProduct(product) {
-      Loading.custom("Deleting product...")
+      Loading.dots();
       await this.$store.dispatch("modules/products/deleteProduct", product);
       Loading.remove();
       if (!this.$store.state.modules.products.error) {
