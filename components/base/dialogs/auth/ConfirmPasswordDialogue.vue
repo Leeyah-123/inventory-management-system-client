@@ -26,41 +26,21 @@
         </v-toolbar>
         <v-card-text>
           <v-container fluid>
-            <v-form
-              ref="form"
-              v-model="valid"
-              @submit.prevent="submit(target)"
-              lazy-validation
-            >
+            <v-form ref="form" v-model="valid" @submit.prevent="submit(target)" lazy-validation>
               <v-alert v-if="error" dense type="error">
                 {{ error_message }}
               </v-alert>
-              <v-text-field
-                v-model.trim="data.password"
-                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="passwordRules"
-                :type="showPassword ? 'text' : 'password'"
+              <v-text-field v-model.trim="data.password" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="passwordRules" :type="showPassword ? 'text' : 'password'"
                 hint="Password must contain at least one uppercase character and one lowercase character, minimum of 5 characters"
-                label="Password"
-                color="primary"
-                persistent-hint
-                dense
-                light
-                outlined
-                required
-                @click:append="showPassword = !showPassword"
-              ></v-text-field>
+                label="Password" color="primary" persistent-hint dense light outlined required
+                @click:append="showPassword = !showPassword"></v-text-field>
             </v-form>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            :disabled="loading"
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
+          <v-btn :disabled="loading" color="blue darken-1" text @click="dialog = false">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -81,35 +61,18 @@
         </v-toolbar>
         <v-card-text>
           <v-container fluid>
-            <v-form
-              ref="form"
-              v-model="emailValid"
-              @submit.prevent="changeEmail"
-              lazy-validation
-            >
+            <v-form ref="form" v-model="emailValid" @submit.prevent="changeEmail" lazy-validation>
               <v-alert v-if="email_error" dense type="error">
                 {{ email_error_message }}
               </v-alert>
-              <v-text-field
-                v-model="email"
-                :rules="emailRules"
-                label="New Email"
-                type="text"
-                required
-                dense
-                outlined
-              ></v-text-field>
+              <v-text-field v-model="email" :rules="emailRules" label="New Email" type="text" required dense
+                outlined></v-text-field>
             </v-form>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            :disabled="loading"
-            color="blue darken-1"
-            text
-            @click="emailDialog = false"
-          >
+          <v-btn :disabled="loading" color="blue darken-1" text @click="emailDialog = false">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -130,55 +93,27 @@
         </v-toolbar>
         <v-card-text>
           <v-container fluid>
-            <v-form
-              ref="form"
-              v-model="passwordValid"
-              @submit.prevent="changePassword"
-              lazy-validation
-            >
+            <v-form ref="form" v-model="passwordValid" @submit.prevent="changePassword" lazy-validation>
               <v-alert v-if="password_error" dense type="error">
                 {{ password_error_message }}
               </v-alert>
-              <v-text-field
-                v-model.trim="password"
-                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="passwordRules"
-                :type="showPassword ? 'text' : 'password'"
+              <v-text-field v-model.trim="password" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="passwordRules" :type="showPassword ? 'text' : 'password'"
                 hint="Password must contain at least one uppercase character and one lowercase character, minimum of 5 characters"
-                persistent-hint
-                label="New Password"
-                color="primary"
-                dense
-                outlined
-                required
-                @click:append="showPassword = !showPassword"
-              ></v-text-field>
-              <v-text-field
-                v-model.trim="confirmPassword"
-                :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                persistent-hint label="New Password" color="primary" dense outlined required
+                @click:append="showPassword = !showPassword"></v-text-field>
+              <v-text-field v-model.trim="confirmPassword" :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[
                   (v) => !!v || 'Confirm password is required',
                   (v) => v === this.password || 'Passwords do not match',
-                ]"
-                :type="showConfirmPassword ? 'text' : 'password'"
-                label="Confirm Password"
-                color="primary"
-                dense
-                outlined
-                required
-                @click:append="showConfirmPassword = !showConfirmPassword"
-              ></v-text-field>
+                ]" :type="showConfirmPassword ? 'text' : 'password'" label="Confirm Password" color="primary" dense
+                outlined required @click:append="showConfirmPassword = !showConfirmPassword"></v-text-field>
             </v-form>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            :disabled="passwordLoading"
-            color="blue darken-1"
-            text
-            @click="passwordDialog = false"
-          >
+          <v-btn :disabled="passwordLoading" color="blue darken-1" text @click="passwordDialog = false">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -246,7 +181,7 @@ export default {
           else this.passwordDialog = true;
         } else {
           Loading.remove();
-          console.log(response);
+          // console.log(response);
           this.loading = false;
           return;
         }
@@ -256,8 +191,8 @@ export default {
         this.$refs.form.reset();
         this.dialog = false;
       } catch (err) {
-        console.log("error", err.message);
-        console.log("error", err.response.data);
+        // console.log("error", err.message);
+        // console.log("error", err.response.data);
         Loading.remove();
         if (err.response.data.message)
           Notify.failure(err.response.data.message);
@@ -308,7 +243,7 @@ export default {
         else if (err.response.data.error)
           this.error_message = err.response.data.error;
         else this.error_message = "Something went wrong";
-        console.log(err);
+        // console.log(err);
       }
       Loading.remove();
       this.passwordLoading = false;

@@ -16,125 +16,45 @@
       </v-toolbar>
       <v-card-text>
         <v-container fluid>
-          <v-form
-            ref="form"
-            v-model="valid"
-            @submit.prevent="submit"
-            lazy-validation
-          >
+          <v-form ref="form" v-model="valid" @submit.prevent="submit" lazy-validation>
             <v-alert v-if="error" dense type="error">
               {{ error_message }}
             </v-alert>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-file-input
-                  v-model="productImage"
-                  label="Product Image"
-                  prepend-icon="mdi-camera"
-                  outlined
-                  dense
-                  show-size
-                  :rules="imageRules"
-                  accept="image/png, image/jpeg"
-                  hint="If no image is provided, default image will be used"
-                  persistent-hint
-                ></v-file-input>
-                <v-text-field
-                  v-model="data.code"
-                  :rules="productCodeRules"
-                  label="Product Code*"
-                  type="text"
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.title"
-                  :rules="nameRules"
-                  label="Product Title*"
-                  type="text"
-                  required
-                  dense
-                  outlined
-                ></v-text-field>
-                <v-textarea
-                  v-model="data.description"
-                  :rules="nameRules"
-                  label="Product Description*"
-                  type="text"
-                  required
-                  dense
-                  outlined
-                ></v-textarea>
+                <v-file-input v-model="productImage" label="Product Image" prepend-icon="mdi-camera" outlined dense
+                  show-size :rules="imageRules" accept="image/png, image/jpeg"
+                  hint="If no image is provided, default image will be used" persistent-hint></v-file-input>
+                <v-text-field v-model="data.code" :rules="productCodeRules" label="Product Code*" type="text" dense
+                  required outlined></v-text-field>
+                <v-text-field v-model="data.title" :rules="nameRules" label="Product Title*" type="text" required dense
+                  outlined></v-text-field>
+                <v-textarea v-model="data.description" :rules="nameRules" label="Product Description*" type="text"
+                  required dense outlined></v-textarea>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="data.brandName"
-                  :rules="nameRules"
-                  label="Brand Name*"
-                  type="text"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
-                <v-text-field
-                  v-model.number="data.price"
-                  :rules="numberRules"
-                  label="Selling Price(#)*"
-                  type="number"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
-                <v-select
-                  v-model="data.category"
-                  :items="categories"
-                  :rules="[(v) => !!v || 'Category is required']"
-                  label="Category*"
-                  required
-                  dense
-                  outlined
-                ></v-select>
-                <v-text-field
-                  v-model.number="data.costPrice"
-                  :rules="numberRules"
-                  label="Cost Price(#)*"
-                  type="number"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
-                <v-text-field
-                  v-model.number="data.quantity"
-                  :rules="numberRules"
-                  label="Qty In Stock*"
-                  type="number"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
+                <v-text-field v-model="data.brandName" :rules="nameRules" label="Brand Name*" type="text" required
+                  outlined dense></v-text-field>
+                <v-text-field v-model.number="data.price" :rules="numberRules" label="Selling Price(#)*" type="number"
+                  required outlined dense></v-text-field>
+                <v-select v-model="data.category" :items="categories" :rules="[(v) => !!v || 'Category is required']"
+                  label="Category*" required dense outlined></v-select>
+                <v-text-field v-model.number="data.costPrice" :rules="numberRules" label="Cost Price(#)*" type="number"
+                  required outlined dense></v-text-field>
+                <v-text-field v-model.number="data.quantity" :rules="numberRules" label="Qty In Stock*" type="number"
+                  required outlined dense></v-text-field>
               </v-col>
             </v-row>
           </v-form>
         </v-container>
         <small>*Indicates required fields</small>
-        <v-progress-linear
-          v-show="uploadProgress !== 0"
-          v-model="uploadProgress"
-          :value="uploadProgress"
-          height="25"
-        >
+        <v-progress-linear v-show="uploadProgress !== 0" v-model="uploadProgress" :value="uploadProgress" height="25">
           <strong class="white--text">{{ Math.ceil(uploadProgress) }}%</strong>
         </v-progress-linear>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          :disabled="loading"
-          color="blue darken-1"
-          text
-          @click="dialog = false"
-        >
+        <v-btn :disabled="loading" color="blue darken-1" text @click="dialog = false">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -146,6 +66,7 @@
 import validationMixin from "../../../../mixins/validationMixin";
 import { Loading } from "notiflix/build/notiflix-loading-aio";
 import { Report } from "notiflix/build/notiflix-report-aio";
+import { Notify } from "notiflix";
 
 export default {
   name: "AddProductDialogue",
@@ -218,15 +139,16 @@ export default {
         await this.$store.dispatch("modules/products/addProduct", this.data);
 
         Loading.remove();
+        Notify.success("Product saved successfully")
         this.loading = false;
         this.dialog = false;
         this.$refs.form.reset();
       } catch (err) {
+        this.loading = false;
         console.log("error", err.message);
         console.log("error", err.response.data);
         Loading.remove();
-        Report.failure("Error", err.response.data, "Ok");
-        this.loading = false;
+        Report.failure("Error", err.response.data.message || "An error occurred", "Ok");
       }
     },
   },

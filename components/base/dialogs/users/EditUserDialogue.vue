@@ -20,73 +20,26 @@
       </v-toolbar>
       <v-card-text>
         <v-container fluid>
-          <v-form
-            ref="form"
-            v-model="valid"
-            @submit.prevent="submit"
-            lazy-validation
-          >
+          <v-form ref="form" v-model="valid" @submit.prevent="submit" lazy-validation>
             <v-alert v-if="error" dense type="error">
               {{ error_message }}
             </v-alert>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="data.id"
-                  label="User Id"
-                  type="text"
-                  disabled
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.firstName"
-                  label="First name"
-                  type="text"
-                  disabled
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.lastName"
-                  label="User Id"
-                  type="text"
-                  disabled
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
+                <v-text-field v-model="data.id" label="User Id" type="text" disabled dense required
+                  outlined></v-text-field>
+                <v-text-field v-model="data.firstName" label="First name" type="text" disabled dense required
+                  outlined></v-text-field>
+                <v-text-field v-model="data.lastName" label="User Id" type="text" disabled dense required
+                  outlined></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="data.email"
-                  label="Email"
-                  type="text"
-                  disabled
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model.number="data.phoneNumber"
-                  label="Phone Number"
-                  type="text"
-                  disabled
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-select
-                  v-model="data.role"
-                  :items="['employee', 'admin']"
-                  label="User Role"
-                  type="text"
-                  dense
-                  required
-                  outlined
-                ></v-select>
+                <v-text-field v-model="data.email" label="Email" type="text" disabled dense required
+                  outlined></v-text-field>
+                <v-text-field v-model.number="data.phoneNumber" label="Phone Number" type="text" disabled dense required
+                  outlined></v-text-field>
+                <v-select v-model="data.role" :items="['employee', 'admin']" label="User Role" type="text" dense required
+                  outlined></v-select>
               </v-col>
             </v-row>
           </v-form>
@@ -94,12 +47,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          :disabled="loading"
-          color="blue darken-1"
-          text
-          @click="dialog = false"
-        >
+        <v-btn :disabled="loading" color="blue darken-1" text @click="dialog = false">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -142,10 +90,10 @@ export default {
         this.loading = false;
         this.dialog = false;
       } catch (err) {
-        console.log("error", err.message);
-        console.log("error", err.response.data);
-        Loading.remove();
-        Report.failure("Error", err.response.data, "Ok");
+        // console.log("error", err.message);
+        < !--console.log("error", err.response.data); -->
+          Loading.remove();
+        Report.failure("Error", err.response.data.message || "An error occurred", "Ok");
         this.loading = false;
       }
     },
@@ -169,6 +117,7 @@ export default {
 .avatar {
   margin: 1px solid black;
 }
+
 .v-text-field {
   margin: 5px;
   border-radius: 10px;

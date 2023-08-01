@@ -20,91 +20,30 @@
       </v-toolbar>
       <v-card-text>
         <v-container fluid>
-          <v-form
-            ref="form"
-            v-model="valid"
-            @submit.prevent="submit"
-            lazy-validation
-          >
+          <v-form ref="form" v-model="valid" @submit.prevent="submit" lazy-validation>
             <v-alert v-if="error" dense type="error">
               {{ error_message }}
             </v-alert>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="data.id"
-                  label="Supplier Id*"
-                  type="text"
-                  disabled
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.name"
-                  :rules="nameRules"
-                  label="Supplier Name*"
-                  type="text"
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.phoneNumber"
-                  :rules="phoneNumRules"
-                  label="Phone Number*"
-                  type="text"
-                  required
-                  dense
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.email"
-                  :rules="emailRules"
-                  label="Email*"
-                  type="text"
-                  required
-                  dense
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.country"
-                  :rules="nameRules"
-                  label="Country*"
-                  type="text"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
+                <v-text-field v-model="data.id" label="Supplier Id*" type="text" disabled dense required
+                  outlined></v-text-field>
+                <v-text-field v-model="data.name" :rules="nameRules" label="Supplier Name*" type="text" dense required
+                  outlined></v-text-field>
+                <v-text-field v-model="data.phoneNumber" :rules="phoneNumRules" label="Phone Number*" type="text" required
+                  dense outlined></v-text-field>
+                <v-text-field v-model="data.email" :rules="emailRules" label="Email*" type="text" required dense
+                  outlined></v-text-field>
+                <v-text-field v-model="data.country" :rules="nameRules" label="Country*" type="text" required outlined
+                  dense></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-textarea
-                  v-model="data.address"
-                  :rules="addressRules"
-                  label="Address*"
-                  type="text"
-                  required
-                  outlined
-                  dense
-                ></v-textarea>
-                <v-text-field
-                  v-model="data.city"
-                  :rules="nameRules"
-                  label="City*"
-                  type="text"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.state"
-                  :rules="nameRules"
-                  label="State*"
-                  type="text"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
+                <v-textarea v-model="data.address" :rules="addressRules" label="Address*" type="text" required outlined
+                  dense></v-textarea>
+                <v-text-field v-model="data.city" :rules="nameRules" label="City*" type="text" required outlined
+                  dense></v-text-field>
+                <v-text-field v-model="data.state" :rules="nameRules" label="State*" type="text" required outlined
+                  dense></v-text-field>
               </v-col>
             </v-row>
           </v-form>
@@ -113,12 +52,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          :disabled="loading"
-          color="blue darken-1"
-          text
-          @click="dialog = false"
-        >
+        <v-btn :disabled="loading" color="blue darken-1" text @click="dialog = false">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -167,7 +101,7 @@ export default {
         console.log("error", err.message);
         console.log("error", err.response.data);
         Loading.remove();
-        Report.failure("Error", err.response.data, "Ok");
+        Report.failure("Error", err.response.data.message || "An error occurred", "Ok");
         this.loading = false;
       }
     },
@@ -193,6 +127,7 @@ export default {
 .avatar {
   margin: 1px solid black;
 }
+
 .v-text-field {
   margin: 5px;
   border-radius: 10px;

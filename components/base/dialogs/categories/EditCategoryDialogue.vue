@@ -20,45 +20,21 @@
       </v-toolbar>
       <v-card-text>
         <v-container fluid>
-          <v-form
-            ref="form"
-            v-model="valid"
-            @submit.prevent="submit"
-            lazy-validation
-          >
+          <v-form ref="form" v-model="valid" @submit.prevent="submit" lazy-validation>
             <v-alert v-if="error" dense type="error">
               {{ error_message }}
             </v-alert>
-            <v-text-field
-              v-model.number="data.id"
-              label="Category ID"
-              type="number"
-              disabled
-              dense
-              required
-              outlined
-            ></v-text-field>
-            <v-text-field
-              v-model="data.categoryName"
-              :rules="nameRules"
-              label="Category Name*"
-              type="text"
-              required
-              dense
-              outlined
-            ></v-text-field>
+            <v-text-field v-model.number="data.id" label="Category ID" type="number" disabled dense required
+              outlined></v-text-field>
+            <v-text-field v-model="data.categoryName" :rules="nameRules" label="Category Name*" type="text" required dense
+              outlined></v-text-field>
           </v-form>
         </v-container>
         <small>*Indicates required field</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          :disabled="loading"
-          color="blue darken-1"
-          text
-          @click="dialog = false"
-        >
+        <v-btn :disabled="loading" color="blue darken-1" text @click="dialog = false">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -104,10 +80,10 @@ export default {
         this.loading = false;
         this.dialog = false;
       } catch (err) {
-        console.log("error", err.message);
-        console.log("error", err.response.data);
+        // console.log("error", err.message);
+        // console.log("error", err.response.data);
         Loading.remove();
-        Report.failure("Error", err.response.data, "Ok");
+        Report.failure("Error", err.response.data.message || "An error occurred", "Ok");
         this.loading = false;
       }
     },

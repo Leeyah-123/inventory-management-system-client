@@ -20,84 +20,28 @@
       </v-toolbar>
       <v-card-text>
         <v-container fluid>
-          <v-form
-            ref="form"
-            v-model="valid"
-            @submit.prevent="submit"
-            lazy-validation
-          >
+          <v-form ref="form" v-model="valid" @submit.prevent="submit" lazy-validation>
             <v-alert v-if="error" dense type="error">
               {{ error_message }}
             </v-alert>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model.number="data.id"
-                  label="Sale Id*"
-                  disabled
-                  type="text"
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="data.customerName"
-                  :rules="nameRules"
-                  label="Customer Name*"
-                  type="text"
-                  dense
-                  required
-                  outlined
-                ></v-text-field>
-                <v-select
-                  v-model="data.productCode"
-                  :rules="[(v) => !!v || 'Field is required']"
-                  :items="products"
-                  label="Product Code*"
-                  type="number"
-                  required
-                  dense
-                  outlined
-                ></v-select>
-                <v-select
-                  v-model="data.billerId"
-                  :rules="[(v) => !!v || 'Field is required']"
-                  :items="employees"
-                  label="Biller ID*"
-                  type="number"
-                  required
-                  dense
-                  outlined
-                ></v-select>
+                <v-text-field v-model.number="data.id" label="Sale Id*" disabled type="text" dense required
+                  outlined></v-text-field>
+                <v-text-field v-model="data.customerName" :rules="nameRules" label="Customer Name*" type="text" dense
+                  required outlined></v-text-field>
+                <v-select v-model="data.productCode" :rules="[(v) => !!v || 'Field is required']" :items="products"
+                  label="Product Code*" type="number" required dense outlined></v-select>
+                <v-select v-model="data.billerId" :rules="[(v) => !!v || 'Field is required']" :items="employees"
+                  label="Biller ID*" type="number" required dense outlined></v-select>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model.number="data.paid"
-                  :rules="numberRules"
-                  label="Amount Paid(#)*"
-                  type="number"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
-                <v-text-field
-                  v-model.number="data.quantity"
-                  :rules="numberRules"
-                  label="Quantity*"
-                  type="number"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
-                <v-text-field
-                  v-model.number="data.tax"
-                  :rules="numberRules"
-                  label="Tax*"
-                  type="number"
-                  required
-                  outlined
-                  dense
-                ></v-text-field>
+                <v-text-field v-model.number="data.paid" :rules="numberRules" label="Amount Paid(#)*" type="number"
+                  required outlined dense></v-text-field>
+                <v-text-field v-model.number="data.quantity" :rules="numberRules" label="Quantity*" type="number" required
+                  outlined dense></v-text-field>
+                <v-text-field v-model.number="data.tax" :rules="numberRules" label="Tax*" type="number" required outlined
+                  dense></v-text-field>
               </v-col>
             </v-row>
           </v-form>
@@ -106,12 +50,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          :disabled="loading"
-          color="blue darken-1"
-          text
-          @click="dialog = false"
-        >
+        <v-btn :disabled="loading" color="blue darken-1" text @click="dialog = false">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -166,7 +105,7 @@ export default {
         console.log("error", err.message);
         console.log("error", err.response.data);
         Loading.remove();
-        Report.failure("Error", err.response.data, "Ok");
+        Report.failure("Error", err.response.data.message || "An error occurred", "Ok");
         this.loading = false;
       }
     },
@@ -211,6 +150,7 @@ export default {
 .avatar {
   margin: 1px solid black;
 }
+
 .v-text-field {
   margin: 5px;
   border-radius: 10px;
