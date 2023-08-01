@@ -24,7 +24,7 @@ export const mutations = {
 export const actions = {
   async getAllUsers(context) {
     try {
-      this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
+      this.$axios.setHeader("Authorization", localStorage.getItem("token"));
       const users = await this.$axios.$get("/users");
       context.commit("SET_USERS", users);
     } catch ({ response }) {

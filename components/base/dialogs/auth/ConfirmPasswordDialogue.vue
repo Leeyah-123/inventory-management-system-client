@@ -170,7 +170,7 @@ export default {
       this.loading = true;
       try {
         Loading.dots("Confirming password...");
-        this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
+        this.$axios.setHeader("Authorization", localStorage.getItem("token"));
         const response = await this.$axios.$post(
           "/user/confirmPassword",
           this.data
@@ -206,7 +206,7 @@ export default {
       try {
         this.emailLoading = true;
         if (this.email !== this.$store.state.modules.auth.user.email) {
-          this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
+          this.$axios.setHeader("Authorization", localStorage.getItem("token"));
           Loading.dots("Updating email...");
           await this.$axios.$patch("/user/profile", { email: this.email });
           Loading.remove();
@@ -229,7 +229,7 @@ export default {
       try {
         this.passwordLoading = true;
 
-        this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
+        this.$axios.setHeader("Authorization", localStorage.getItem("token"));
         Loading.dots("Updating password...");
         await this.$axios.$patch("/user/profile", { password: this.password });
         Loading.remove();

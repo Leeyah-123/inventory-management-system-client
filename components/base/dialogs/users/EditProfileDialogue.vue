@@ -56,9 +56,9 @@
 </template>
 
 <script>
-import validationMixin from "../../../../mixins/validationMixin";
 import { Loading } from "notiflix/build/notiflix-loading-aio";
 import { Report } from "notiflix/build/notiflix-report-aio";
+import validationMixin from "../../../../mixins/validationMixin";
 
 export default {
   name: "EditProfileDialogue",
@@ -86,7 +86,7 @@ export default {
   mixins: [validationMixin],
   methods: {
     async submit() {
-      this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
+      this.$axios.setHeader("Authorization", localStorage.getItem("token"));
       await this.$refs.form.validate();
       if (!this.valid) return;
 
@@ -119,7 +119,7 @@ export default {
           Loading.remove();
         }
 
-        this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
+        this.$axios.setHeader("Authorization", localStorage.getItem("token"));
         Loading.dots("Updating info...");
         const user = await this.$axios.$patch("/user/profile", this.data);
         await this.$store.dispatch("modules/auth/setUser", user);

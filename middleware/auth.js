@@ -3,7 +3,7 @@ export default async function (context) {
   if (!token) return context.redirect("/auth");
 
   try {
-    const headers = { AUTH_TOKEN: token };
+    const headers = { Authorization: token };
     const user = await context.$axios.$get("/auth/profile", { headers });
     context.store.dispatch("modules/auth/setUser", user);
   } catch (err) {
