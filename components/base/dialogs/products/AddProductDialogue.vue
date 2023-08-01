@@ -145,8 +145,8 @@ export default {
         this.$refs.form.reset();
       } catch (err) {
         this.loading = false;
-        console.log("error", err.message);
-        console.log("error", err.response.data);
+        // console.log("error", err.message);
+        // console.log("error", err.response.data);
         Loading.remove();
         Report.failure("Error", err.response.data.message || "An error occurred", "Ok");
       }

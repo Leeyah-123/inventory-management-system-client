@@ -7,8 +7,8 @@ export default async function (context) {
     const user = await context.$axios.$get("/auth/profile", { headers });
     context.store.dispatch("modules/auth/setUser", user);
   } catch (err) {
-    console.log(err);
-    console.log(err.response);
+    // console.log(err);
+    // console.log(err.response);
     context.redirect("/auth");
   }
 }

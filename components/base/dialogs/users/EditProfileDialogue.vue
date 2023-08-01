@@ -130,8 +130,8 @@ export default {
         this.loading = false;
         this.dialog = false;
       } catch (err) {
-        console.log("error", err.message);
-        console.log("error", err.response.data);
+        // console.log("error", err.message);
+        // console.log("error", err.response.data);
         Loading.remove();
         this.uploadProgress = 0;
         Report.failure("Error", err.response.data.message || "An error occurred", "Ok");

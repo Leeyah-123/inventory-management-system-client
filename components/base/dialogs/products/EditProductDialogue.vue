@@ -131,7 +131,7 @@ export default {
             }
           );
 
-          console.log("Response", response);
+          // console.log("Response", response);
 
           this.data.productImg = response.url;
           this.data.productImageId = response.id;
@@ -147,8 +147,8 @@ export default {
       } catch (err) {
         this.uploadProgress = 0;
         this.loading = false;
-        console.log("error", err.message);
-        console.log("error", err.response.data);
+        // console.log("error", err.message);
+        // console.log("error", err.response.data);
         Loading.remove();
         Report.failure("Error", err.response.data.message || "An error occurred", "Ok");
       }
