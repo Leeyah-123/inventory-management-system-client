@@ -19,12 +19,8 @@
           </div>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn text @click="deleteProduct(product)" color="primary"
-            >Yes</v-btn
-          >
-          <v-btn text @click="dialog.value = false" color="red lighten-1"
-            >Cancel</v-btn
-          >
+          <v-btn text @click="deleteProduct(product)" color="primary">Yes</v-btn>
+          <v-btn text @click="dialog.value = false" color="red lighten-1">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -32,6 +28,7 @@
 </template>
 
 <script>
+import { Loading } from "notiflix";
 import Notify from "../../../../utils/Notifilix";
 
 export default {
@@ -46,8 +43,10 @@ export default {
     dialog: false,
   }),
   methods: {
-    deleteProduct(product) {
-      this.$store.dispatch("modules/products/deleteProduct", product);
+    async deleteProduct(product) {
+      Loading.custom("Deleting product...")
+      await this.$store.dispatch("modules/products/deleteProduct", product);
+      Loading.remove();
       if (!this.$store.state.modules.products.error) {
         Notify.success("Delete successful");
       }
