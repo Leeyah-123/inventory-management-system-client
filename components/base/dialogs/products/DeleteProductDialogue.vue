@@ -50,6 +50,7 @@ export default {
       if (!this.$store.state.modules.products.error) {
         Notify.success("Delete successful");
       }
+      this.dialog = false;
     },
   },
 };
