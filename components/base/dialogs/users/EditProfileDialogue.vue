@@ -86,7 +86,7 @@ export default {
   mixins: [validationMixin],
   methods: {
     async submit() {
-      this.$axios.setHeader("Authorization", localStorage.getItem("token"));
+      this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
       await this.$refs.form.validate();
       if (!this.valid) return;
 
@@ -119,7 +119,7 @@ export default {
           Loading.remove();
         }
 
-        this.$axios.setHeader("Authorization", localStorage.getItem("token"));
+        this.$axios.setHeader("AUTH_TOKEN", localStorage.getItem("token"));
         Loading.dots("Updating info...");
         const user = await this.$axios.$patch("/user/profile", this.data);
         await this.$store.dispatch("modules/auth/setUser", user);
